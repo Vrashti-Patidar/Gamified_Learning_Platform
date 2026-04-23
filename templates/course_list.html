@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Courses | Gamified Learning Platform{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3">Explore Courses</h1>
+        <p class="lead text-muted mx-auto" style="max-width: 600px;">Level up your knowledge across multiple categories. Earn XP, collect badges, and climb the ranks.</p>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
+        <a href="{% url 'courses' %}" class="btn {% if not selected_category %}btn-primary{% else %}btn-outline-secondary{% endif %} rounded-pill px-4">All Courses</a>
+        {% for cat in categories %}
+            <a href="?category={{ cat.name|urlencode }}" class="btn {% if selected_category|lower == cat.name|lower %}btn-primary{% else %}btn-outline-secondary{% endif %} rounded-pill px-4">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="row g-4">
+        {% for course in courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 rounded-4 shadow-sm course-card hover-card text-decoration-none text-dark d-flex flex-column">
+                    <div class="position-relative">
+                        {% if course.image %}
+                            <div class="bg-light rounded-top-4" style="height: 200px; background-image: url('{{ course.image.url }}'); background-size: cover; background-position: center;"></div>
+                        {% else %}
+                            <div class="bg-light rounded-top-4 d-flex align-items-center justify-content-center" style="height: 200px; background-color: var(--bg-pastel-blue) !important;">
+                                <i class="bi bi-book display-1 text-primary opacity-25"></i>
+                            </div>
+                        {% endif %}
+                        <span class="badge bg-white text-dark position-absolute top-0 end-0 m-3 py-2 px-3 rounded-pill fw-bold shadow-sm">{{ course.price_tag }}</span>
+                    </div>
+                    <div class="card-body p-4 flex-grow-1">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-pastel-green text-success rounded-pill px-2 py-1 small">{{ course.category.name }}</span>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">{{ course.title }}</h5>
+                        <p class="text-muted small mb-3">{{ course.description|truncatewords:15 }}</p>
+                        <div class="d-flex align-items-center mb-3 mt-auto">
+                            <img src="https://ui-avatars.com/api/?name={{ course.instructor }}&background=random" class="rounded-circle me-2" width="30" height="30">
+                            <small class="text-muted fw-semibold">{{ course.instructor }}</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 px-4 pb-4 pt-0 text-center">
+                        <a href="{% url 'course_detail' course.id %}" class="btn btn-outline-primary w-100 rounded-pill">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <h3 class="text-muted">No courses available at the moment.</h3>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

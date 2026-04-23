@@ -1,0 +1,376 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center text-lg-start bg-pastel-blue py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <!-- Left Side -->
+            <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
+                <span class="badge bg-white text-primary rounded-pill px-3 py-2 mb-3 shadow-sm shadow-hover">🚀 The ultimate learning experience</span>
+                <h1 class="display-3 fw-bolder mb-4 text-dark hero-title">Level Up Your Skills with <span class="text-primary position-relative d-inline-block">Gamified Learning<svg class="w-100 position-absolute start-0 bottom-0 text-primary opacity-25" style="height:12px; transform:translateY(8px)" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,15 100,5" stroke="currentColor" stroke-width="5" fill="none"/></svg></span></h1>
+                <p class="lead text-muted mb-5 fs-4">Join our interactive platform, earn XP, unlock levels, and challenge yourself while mastering new concepts.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <button class="btn btn-primary btn-lg rounded-pill px-5 py-3 shadow-lg btn-hover-lift fs-5" data-bs-toggle="modal" data-bs-target="#authModal" onclick="showSignup()">Start Learning Now</button>
+                    <a href="#courses" class="btn btn-outline-dark btn-lg rounded-pill px-5 py-3 btn-hover-lift fs-5">Explore Courses</a>
+                </div>
+                
+                <div class="d-flex align-items-center mt-5">
+                    <div class="d-flex me-3">
+                        <img src="https://ui-avatars.com/api/?name=St&background=random" class="rounded-circle border border-2 border-white ms-n3 position-relative z-1" width="40" height="40" style="margin-left:-10px;">
+                        <img src="https://ui-avatars.com/api/?name=An&background=random" class="rounded-circle border border-2 border-white ms-n3 position-relative z-2" width="40" height="40" style="margin-left:-15px;">
+                        <img src="https://ui-avatars.com/api/?name=Jo&background=random" class="rounded-circle border border-2 border-white ms-n3 position-relative z-3" width="40" height="40" style="margin-left:-15px;">
+                    </div>
+                    <div>
+                        <div class="fw-bold d-flex align-items-center">
+                            <span class="text-warning me-1">⭐⭐⭐⭐⭐</span> 4.9/5
+                        </div>
+                        <small class="text-muted">From 10,000+ reviews</small>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Side Image & Floating Card -->
+            <div class="col-lg-6 position-relative text-center float-animation">
+                <!-- Abstract blobs background behind image -->
+                <div class="position-absolute  w-100 h-100  z-n1" style="background: radial-gradient(circle, rgba(132,94,247,0.15) 0%, rgba(255,255,255,0) 70%); border-radius: 50%;"></div>
+                
+                <img src="https://illustrations.popsy.co/amber/student-going-to-school.svg" alt="Student Learning" class="img-fluid w-75 position-relative z-1">
+                
+                <!-- Floating Card -->
+                <div class="position-absolute bottom-0 start-0 translate-middle-x bg-white p-3 rounded-4 shadow-lg d-flex align-items-center float-animation" style="z-index: 2; margin-bottom: 10%; margin-left: 15%; animation-delay: 1s;">
+                    <div class="icon-circle bg-pastel-green text-success me-3">
+                        <i class="bi bi-people-fill fs-4"></i>
+                    </div>
+                    <div class="text-start">
+                        <h5 class="fw-bold mb-0">100K+</h5>
+                        <small class="text-muted">Enrolled Students</small>
+                    </div>
+                </div>
+                
+                <div class="position-absolute top-0 end-0 bg-white p-3 rounded-4 shadow d-flex align-items-center float-animation" style="z-index: 2; margin-top: 15%; margin-right: 5%; animation-delay: 2s;">
+                    <div class="icon-circle bg-pastel-purple text-purple me-3">
+                        <i class="bi bi-award-fill fs-4"></i>
+                    </div>
+                    <div class="text-start">
+                        <h5 class="fw-bold mb-0">50+</h5>
+                        <small class="text-muted">Expert Tutors</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Categories Section -->
+<section class="py-5 bg-white">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-end mb-5">
+            <div>
+                <span class="text-primary fw-bold text-uppercase tracking-wide small">Top Categories</span>
+                <h2 class="display-6 fw-bold mt-2">Explore Top Categories</h2>
+            </div>
+            <a href="{% url 'courses' %}" class="btn btn-link text-decoration-none fw-bold d-none d-md-block">View All <i class="bi bi-arrow-right"></i></a>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Category Cards -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'courses' %}?category=Mathematics" class="text-decoration-none text-dark">
+                    <div class="card border-0 bg-pastel-blue h-100 rounded-4 text-center p-4 shadow-sm hover-card">
+                        <div class="card-body">
+                            <div class="icon-circle bg-white text-primary mx-auto mb-3 shadow-sm" style="width: 60px; height: 60px; font-size: 24px;">
+                                <i class="bi bi-calculator"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Mathematics</h5>
+                            <p class="card-text text-muted small">120+ Courses</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'courses' %}?category=Development" class="text-decoration-none text-dark">
+                    <div class="card border-0 bg-pastel-purple h-100 rounded-4 text-center p-4 shadow-sm hover-card">
+                        <div class="card-body">
+                            <div class="icon-circle bg-white text-purple mx-auto mb-3 shadow-sm" style="width: 60px; height: 60px; font-size: 24px;">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Development</h5>
+                            <p class="card-text text-muted small">85+ Courses</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'courses' %}?category=AI %26 Data" class="text-decoration-none text-dark">
+                    <div class="card border-0 bg-pastel-yellow h-100 rounded-4 text-center p-4 shadow-sm hover-card">
+                        <div class="card-body">
+                            <div class="icon-circle bg-white text-warning mx-auto mb-3 shadow-sm" style="width: 60px; height: 60px; font-size: 24px;">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">AI & Data</h5>
+                            <p class="card-text text-muted small">60+ Courses</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'courses' %}?category=Business" class="text-decoration-none text-dark">
+                    <div class="card border-0 bg-pastel-green h-100 rounded-4 text-center p-4 shadow-sm hover-card">
+                        <div class="card-body">
+                            <div class="icon-circle bg-white text-success mx-auto mb-3 shadow-sm" style="width: 60px; height: 60px; font-size: 24px;">
+                                <i class="bi bi-briefcase"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Business</h5>
+                            <p class="card-text text-muted small">45+ Courses</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Feature Section -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row align-items-center mb-5 flex-row-reverse">
+            <div class="col-lg-6 ps-lg-5 mb-4 mb-lg-0 float-animation">
+                <img src="https://illustrations.popsy.co/amber/working-from-home.svg" alt="Expert Teachers" class="img-fluid w-100">
+            </div>
+            <div class="col-lg-6">
+                <span class="text-purple fw-bold text-uppercase tracking-wide small">World Class Instructors</span>
+                <h2 class="display-5 fw-bold mt-2 mb-4">Learn with Expert Teachers</h2>
+                <p class="text-muted fs-5 mb-4">Our instructors are industry professionals who are passionate about teaching and helping you reach your full potential through interactive and gamified lessons.</p>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-success me-3 fs-5"></i> <span class="fs-5">Instant feedback on assignments</span></li>
+                    <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-success me-3 fs-5"></i> <span class="fs-5">Live Q&A Sessions</span></li>
+                    <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-success me-3 fs-5"></i> <span class="fs-5">1-on-1 Mentorship</span></li>
+                </ul>
+                <a href="#" class="btn btn-primary rounded-pill px-4 py-2 hover-btn">Meet Instructors</a>
+            </div>
+        </div>
+        
+        <div class="row align-items-center mt-5 pt-5">
+            <div class="col-lg-6 pe-lg-5 mb-4 mb-lg-0 float-animation" style="animation-delay: 1.5s;">
+                <img src="https://illustrations.popsy.co/amber/product-launch.svg" alt="For Individuals" class="img-fluid w-100">
+            </div>
+            <div class="col-lg-6">
+                <span class="text-success fw-bold text-uppercase tracking-wide small">Personalized Growth</span>
+                <h2 class="display-5 fw-bold mt-2 mb-4">Tailored for Individuals</h2>
+                <p class="text-muted fs-5 mb-4">Set your own pace, track your progress with XP points, maintain your streak, and earn badges as you complete courses designed to make learning fun.</p>
+                <div class="row g-4 mb-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-trophy-fill text-warning fs-3 me-3 pt-1"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">Earn Badges</h5>
+                                <p class="text-muted small mb-0">Showcase your skills</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-bar-chart-fill text-primary fs-3 me-3 pt-1"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">Track XP</h5>
+                                <p class="text-muted small mb-0">Level up quickly</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-outline-dark rounded-pill px-4 py-2 hover-btn">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Courses Section -->
+<section id="courses" class="py-5 bg-white">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <span class="text-primary fw-bold text-uppercase tracking-wide small">Featured</span>
+            <h2 class="display-6 fw-bold mt-2">Popular Courses</h2>
+            <p class="text-muted w-lg-50 mx-auto">Discover the most sought-after courses taught by experts. Turn learning into a game and master new skills.</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Course Card 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 rounded-4 shadow-sm course-card hover-card">
+                    <div class="position-relative">
+                        <div class="bg-light rounded-top-4" style="height: 200px; background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800'); background-size: cover; background-position: center;"></div>
+                        <span class="badge bg-white text-dark position-absolute top-0 end-0 m-3 py-2 px-3 rounded-pill fw-bold shadow-sm">Paid</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-pastel-purple text-purple rounded-pill px-2 py-1 small">Development</span>
+                            <span class="ms-auto text-warning small fw-bold"><i class="bi bi-star-fill"></i> 4.8</span>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">Full-Stack Web Development Bootcamp</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://ui-avatars.com/api/?name=JS" class="rounded-circle me-2" width="30" height="30">
+                            <small class="text-muted fw-semibold">John Smith</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                            <small class="text-muted fw-semibold"><i class="bi bi-journal-text me-1"></i> 24 Lessons</small>
+                            <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Course Card 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 rounded-4 shadow-sm course-card hover-card">
+                    <div class="position-relative">
+                        <div class="bg-light rounded-top-4" style="height: 200px; background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800'); background-size: cover; background-position: center;"></div>
+                        <span class="badge bg-success position-absolute top-0 end-0 m-3 py-2 px-3 rounded-pill fw-bold shadow-sm">Free</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-pastel-blue text-primary rounded-pill px-2 py-1 small">Mathematics</span>
+                            <span class="ms-auto text-warning small fw-bold"><i class="bi bi-star-fill"></i> 4.9</span>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">Complete Guide to Linear Algebra</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://ui-avatars.com/api/?name=AD" class="rounded-circle me-2" width="30" height="30">
+                            <small class="text-muted fw-semibold">Alice Doe</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                            <small class="text-muted fw-semibold"><i class="bi bi-journal-text me-1"></i> 18 Lessons</small>
+                            <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Course Card 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 rounded-4 shadow-sm course-card hover-card">
+                    <div class="position-relative">
+                        <div class="bg-light rounded-top-4" style="height: 200px; background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'); background-size: cover; background-position: center;"></div>
+                        <span class="badge bg-white text-dark position-absolute top-0 end-0 m-3 py-2 px-3 rounded-pill fw-bold shadow-sm">Paid</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-pastel-yellow text-warning rounded-pill px-2 py-1 small">AI & Data</span>
+                            <span class="ms-auto text-warning small fw-bold"><i class="bi bi-star-fill"></i> 4.7</span>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3">Machine Learning A-Z: Hands-On Python</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://ui-avatars.com/api/?name=MR" class="rounded-circle me-2" width="30" height="30">
+                            <small class="text-muted fw-semibold">Mark Ronson</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                            <small class="text-muted fw-semibold"><i class="bi bi-journal-text me-1"></i> 32 Lessons</small>
+                            <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'courses' %}" class="btn btn-outline-primary btn-lg rounded-pill px-5 hover-btn">Browse All Courses</a>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white text-center position-relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(255,255,255,0.4) 0%, transparent 50%);"></div>
+    
+    <div class="container py-5 position-relative z-1">
+        <h2 class="display-5 fw-bold mb-4">Ready to start your journey?</h2>
+        <p class="lead mb-5 opacity-75 mx-auto" style="max-width: 600px;">Join thousands of students who have already leveled up their careers. Sign up today and get your first course free!</p>
+        <button class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold text-primary shadow-lg btn-hover-lift" data-bs-toggle="modal" data-bs-target="#authModal" onclick="showSignup()">Get Started Now</button>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-white">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <span class="text-primary fw-bold text-uppercase tracking-wide small">Get In Touch</span>
+            <h2 class="display-6 fw-bold mt-2">Contact Us</h2>
+            <p class="text-muted w-lg-50 mx-auto">Have any questions about our courses or platform? We'd love to hear from you. Drop us a message below.</p>
+        </div>
+
+        <div class="row g-5 align-items-center">
+            <!-- Contact Info -->
+            <div class="col-lg-5">
+                <div class="card border-0 bg-pastel-blue rounded-4 shadow-sm p-4 mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-circle bg-white text-primary shadow-sm" style="width: 50px; height: 50px; flex-shrink: 0;">
+                            <i class="bi bi-envelope-fill fs-5"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="fw-bold mb-1">Email Us</h6>
+                            <p class="text-muted small mb-0">support@shikshax.example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 bg-pastel-yellow rounded-4 shadow-sm p-4 mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-circle bg-white text-warning shadow-sm" style="width: 50px; height: 50px; flex-shrink: 0;">
+                            <i class="bi bi-telephone-fill fs-5"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="fw-bold mb-1">Call Us</h6>
+                            <p class="text-muted small mb-0">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 bg-pastel-green rounded-4 shadow-sm p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-circle bg-white text-success shadow-sm" style="width: 50px; height: 50px; flex-shrink: 0;">
+                            <i class="bi bi-geo-alt-fill fs-5"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="fw-bold mb-1">Location</h6>
+                            <p class="text-muted small mb-0">123 Learning Street, Edu City</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="card border-0 rounded-4 shadow-sm p-4 p-md-5 bg-white">
+                    <h4 class="fw-bold mb-4">Send a Message</h4>
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-semibold">Your Name</label>
+                                <input type="text" class="form-control form-control-lg bg-light border-0" placeholder="John Doe">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-semibold">Your Email</label>
+                                <input type="email" class="form-control form-control-lg bg-light border-0" placeholder="john@example.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-semibold">Subject</label>
+                                <input type="text" class="form-control form-control-lg bg-light border-0" placeholder="How can we help?">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-semibold">Message</label>
+                                <textarea class="form-control form-control-lg bg-light border-0" rows="4" placeholder="Your message here..."></textarea>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="button" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm w-100" onclick="alert('Message sent successfully!')">Send Message <i class="bi bi-send ms-2"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

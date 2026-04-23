@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Leaderboard | Gamified Learning Platform{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <span class="text-warning fw-bold text-uppercase tracking-wide small"><i class="bi bi-trophy-fill"></i> Top Students</span>
+        <h2 class="display-5 fw-bold mt-2">Global Leaderboard</h2>
+        <p class="text-muted w-lg-50 mx-auto">See how you stack up against the best learners in the platform. Keep completing lessons to earn XP and level up!</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 rounded-4 shadow-sm overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th scope="col" class="py-3 px-4 text-center" style="width: 80px;">Rank</th>
+                                    <th scope="col" class="py-3">Student</th>
+                                    <th scope="col" class="py-3 text-center">Level</th>
+                                    <th scope="col" class="py-3 text-center">Badges</th>
+                                    <th scope="col" class="py-3 text-end px-4">Total XP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user_prof in top_users %}
+                                <tr class="{% if request.user == user_prof.user %}bg-pastel-blue{% endif %} hover-card" style="transition: all 0.2s;">
+                                    <td class="text-center px-4">
+                                        {% if forloop.counter == 1 %}
+                                            <div class="icon-circle bg-warning text-white mx-auto shadow-sm" style="width: 40px; height: 40px;"><i class="bi bi-trophy-fill"></i></div>
+                                        {% elif forloop.counter == 2 %}
+                                            <div class="icon-circle bg-secondary text-white mx-auto shadow-sm" style="width: 40px; height: 40px;"><i class="bi bi-award-fill"></i></div>
+                                        {% elif forloop.counter == 3 %}
+                                            <div class="icon-circle text-white mx-auto shadow-sm" style="background-color: #cd7f32; width: 40px; height: 40px;"><i class="bi bi-award-fill"></i></div>
+                                        {% else %}
+                                            <h5 class="fw-bold text-muted mb-0">#{{ forloop.counter }}</h5>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if user_prof.avatar %}
+                                                <img src="{{ user_prof.avatar.url }}" alt="Avatar" class="rounded-circle border me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                                            {% else %}
+                                                <img src="https://ui-avatars.com/api/?name={{ user_prof.user.first_name|default:user_prof.user.username }}&background=random&color=fff" alt="Avatar" class="rounded-circle border me-3" style="width: 48px; height: 48px;">
+                                            {% endif %}
+                                            <div>
+                                                <h6 class="fw-bold mb-0">{% if user_prof.user.first_name %}{{ user_prof.user.first_name }}{% else %}{{ user_prof.user.username }}{% endif %}</h6>
+                                                {% if request.user == user_prof.user %}
+                                                    <span class="badge bg-primary rounded-pill smaller">You</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-pastel-purple text-purple rounded-pill px-3 py-2 fw-bold">Lvl {{ user_prof.level }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center">
+                                            <span class="badge bg-light text-dark border">
+                                                <i class="bi bi-patch-check-fill text-success me-1"></i> {{ user_prof.user.badges.count }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end px-4">
+                                        <h5 class="fw-bold text-warning mb-0">{{ user_prof.xp }} XP</h5>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <i class="bi bi-emoji-frown text-muted display-4 mb-3 d-block"></i>
+                                        <h5 class="text-muted fw-bold">No students found</h5>
+                                        <p class="text-muted mb-0">Be the first to join and earn XP!</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

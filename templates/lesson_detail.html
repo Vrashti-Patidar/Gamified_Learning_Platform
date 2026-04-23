@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ lesson.title }} | {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="card border-0 rounded-4 shadow-sm sticky-top" style="top: 100px;">
+                <div class="card-header bg-white border-bottom p-3">
+                    <h6 class="fw-bold mb-0 text-truncate" title="{{ course.title }}">{{ course.title }}</h6>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom-4">
+                    {% for l in course.lessons.all %}
+                        <a href="{% url 'lesson_detail' course.id l.id %}" class="list-group-item list-group-item-action p-3 {% if l.id == lesson.id %}active bg-primary text-white border-primary{% endif %}">
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <span class="small fw-semibold">{{ forloop.counter }}. {{ l.title }}</span>
+                                {% if l.progresses.all %}
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% empty %}
+                        <div class="p-3 text-muted">No lessons yet.</div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer bg-light p-3 text-center border-top-0 rounded-bottom-4">
+                    <a href="{% url 'course_detail' course.id %}" class="btn btn-outline-secondary btn-sm w-100 rounded-pill"><i class="bi bi-arrow-left"></i> Back to Course</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Mobile Course Return -->
+            <a href="{% url 'course_detail' course.id %}" class="btn btn-link text-decoration-none d-lg-none mb-3 ps-0"><i class="bi bi-arrow-left"></i> Back to Course</a>
+            
+            {% if not is_enrolled %}
+                <div class="alert alert-warning rounded-4 shadow-sm py-4 text-center">
+                    <i class="bi bi-lock-fill display-4 text-warning mb-3"></i>
+                    <h4 class="fw-bold">Content Locked</h4>
+                    <p class="text-muted">You need to enroll in this course to view the lesson content.</p>
+                    <a href="{% url 'course_detail' course.id %}" class="btn btn-primary rounded-pill px-4 mt-2">Go to Course Page</a>
+                </div>
+            {% else %}
+                <!-- Lesson Content -->
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                    {% if lesson.video_url %}
+                    <div class="bg-dark" style="padding-top: 56.25%; position: relative;">
+                        <!-- Assuming YouTube embed logic or a simple placeholder -->
+                        <iframe src="{{ lesson.video_url }}" class="position-absolute top-0 start-0 w-100 h-100 border-0" allowfullscreen></iframe>
+                    </div>
+                    {% else %}
+                    <div class="bg-pastel-purple p-5 text-center" style="min-height: 200px;">
+                        <i class="bi bi-journal-richtext display-1 text-purple opacity-50"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-body p-4 p-md-5">
+                        <span class="badge bg-pastel-blue text-primary px-3 py-2 rounded-pill mb-3">Lesson {{ lesson.order|default:"0" }}</span>
+                        <h1 class="fw-bold mb-4">{{ lesson.title }}</h1>
+                        
+                        <div class="lead text-dark fs-5" style="line-height: 1.8;">
+                            {{ lesson.content|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gamification / Completion Action -->
+                <div class="card border-0 shadow-sm rounded-4 bg-pastel-blue mb-5">
+                    <div class="card-body p-4 text-center d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                        <div class="text-md-start">
+                            <h5 class="fw-bold mb-1">{% if is_completed %}Lesson Completed!{% else %}Finished reading?{% endif %}</h5>
+                            <p class="text-muted small mb-0">{% if is_completed %}You earned +50 XP for this lesson.{% else %}Mark this lesson as complete to earn +50 XP and make progress.{% endif %}</p>
+                        </div>
+                        
+                        {% if is_completed %}
+                            <button class="btn btn-success btn-lg rounded-pill px-5 disabled">
+                                <i class="bi bi-check2-all me-2"></i> Completed
+                            </button>
+                        {% else %}
+                            <form method="POST" action="{% url 'mark_lesson_complete' course.id lesson.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 btn-hover-lift shadow-sm">
+                                    Mark as Complete <i class="bi bi-star-fill text-warning ms-2"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

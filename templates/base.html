@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gamified Learning Platform{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    {% block navbar %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-glass fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="{% url 'home' %}">
+                <i class="bi bi-controller"></i> ShikshaX
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#courses">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#contact">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex ms-lg-3 gap-2">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-primary rounded-pill px-4">Dashboard</a>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger rounded-pill px-4">Logout</button>
+                        </form>
+                    {% else %}
+                        <button class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#authModal" onclick="showLogin()">Login</button>
+                        <button class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#authModal" onclick="showSignup()">Sign Up</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    {% if messages %}
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000; margin-top: 70px;">
+            {% for message in messages %}
+                <div class="toast align-items-center text-white bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Content Block -->
+    <main style="margin-top: 76px;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Auth Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-body p-5 position-relative">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
+                    <!-- Form Container -->
+                    <div id="authFormContainer">
+                        <!-- Content dynamically swapped via JS -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-0 text-muted" id="authToggleText">
+                            Don't have an account? <a href="#" class="text-primary text-decoration-none fw-bold" onclick="toggleAuthMode(event)">Sign up here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Form Templates for JS -->
+    <template id="loginTemplate">
+        <h3 class="fw-bold mb-4 text-center">Welcome Back! 👋</h3>
+        <form id="loginForm" method="POST" action="{% url 'login_view' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label text-muted small fw-semibold">Email/Username</label>
+                <input type="text" class="form-control form-control-lg bg-light border-0" name="username" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label text-muted small fw-semibold">Password</label>
+                <input type="password" class="form-control form-control-lg bg-light border-0" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">Login to Let's Learn!</button>
+        </form>
+    </template>
+
+    <template id="signupTemplate">
+        <h3 class="fw-bold mb-4 text-center">Create Account 🚀</h3>
+        <form id="signupForm" method="POST" action="{% url 'signup_view' %}" onsubmit="return validateSignup(event)">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label text-muted small fw-semibold">Full Name</label>
+                <input type="text" class="form-control form-control-lg bg-light border-0" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-muted small fw-semibold">Email</label>
+                <input type="email" class="form-control form-control-lg bg-light border-0" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-muted small fw-semibold">Password</label>
+                <input type="password" class="form-control form-control-lg bg-light border-0" name="password" id="signupPassword" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-muted small fw-semibold">Confirm Password</label>
+                <input type="password" class="form-control form-control-lg bg-light border-0" id="signupConfirmPassword" required>
+                <div class="invalid-feedback">Passwords do not match.</div>
+            </div>
+            <div class="mb-4 form-check bg-light p-3 rounded-3 ms-0 d-flex align-items-center gap-2 border">
+                <input type="checkbox" class="form-check-input m-0" id="captchaCheck" required>
+                <label class="form-check-label mb-0 fw-semibold text-muted" for="captchaCheck">I am human</label>
+                <i class="bi bi-shield-check text-success ms-auto fs-5"></i>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">Start Learning Now</button>
+        </form>
+    </template>
+
+    {% block footer %}
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-5">
+        <div class="container text-center text-muted">
+            <p class="mb-0">&copy; 2026 GamifiedLMS. All rights reserved.</p>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>
